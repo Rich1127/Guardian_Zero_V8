@@ -23,7 +23,7 @@
         <img src="{% if active_page == 'home' %}
                     {{ url_for('static', filename='icons/home_activo.jpeg') }}
                     {% else %}
-                    {{ url_for('static', filename='icons/home.svg') }}
+                    {{ url_for('static', filename='icons/home.png') }}
                     {% endif %}">
         Inicio
     </a>
@@ -32,7 +32,7 @@
         <img src="{% if active_page == 'foro' %}
                     {{ url_for('static', filename='icons/foro_activo.jpeg') }}
                     {% else %}
-                    {{ url_for('static', filename='icons/foro_inactivo.jpeg') }}
+                    {{ url_for('static', filename='icons/foro.png') }}
                     {% endif %}">
         Foro
     </a>
