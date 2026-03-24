@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Registro – Guardian Zero{% endblock %}
+
+{% block extra_head %}
+<style>
+  body { display: flex; flex-direction: column; }
+
+  .gz-header {
+    background: var(--bg-main);
+    border-bottom: 1px solid rgba(26,107,115,.2);
+    display: flex;
+    align-items: center;
+    padding: 12px 24px;
+    gap: 14px;
+  }
+  .gz-header img.header-logo { height: 38px; width: auto; object-fit: contain; }
+  .gz-header h1 { font-size: 1.6rem; font-weight: 700; color: var(--navy); flex: 1; text-align: center; padding-right: 52px; }
+
+  .auth-page {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px 16px;
+  }
+
+  .auth-card {
+    background: var(--bg-card);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-md);
+    padding: 44px 40px;
+    width: 100%;
+    max-width: 520px;
+  }
+
+  .auth-title {
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    color: var(--navy);
+    margin-bottom: 28px;
+    text-transform: uppercase;
+    text-align: center;
+  }
+
+  .form-actions {
+    margin-top: 28px;
+    text-align: center;
+  }
+
+  .login-link {
+    margin-top: 14px;
+    font-size: .9rem;
+    color: var(--text-mid);
+    text-align: center;
+  }
+  .login-link a { color: var(--teal-dark); font-weight: 600; text-decoration: underline; }
+</style>
+{% endblock %}
+
+{% block body %}
+<header class="gz-header">
+  <!-- Mini logo -->
+  <img src="{{ url_for('static', filename='img/LOGO_GZ.png') }}" class="header-logo" alt="Guardian Zero"/>
+  <h1>Guardian Zero</h1>
+</header>
+
+<main class="auth-page">
+  <div class="auth-card">
+    <p class="auth-title">Registrar Nuevo Usuario</p>
+
+    <form method="POST" action="{{ url_for('auth.register') }}">
+      <div class="input-group">
+        <span class="icon">👤</span>
+        <input type="text" name="nombre" placeholder="Nombre Completo"
+               required autocomplete="name"
+               value="{{ request.form.get('nombre', '') }}" />
+      </div>
+
+      <div class="input-group">
+        <span class="icon">👤</span>
+        <input type="email" name="email" placeholder="Correo Electrónico"
+               required autocomplete="email"
+               value="{{ request.form.get('email', '') }}" />
+      </div>
+
+      <div class="input-group">
+        <span class="icon">🔒</span>
+        <input type="password" name="password" placeholder="Contraseña"
+               required autocomplete="new-password" />
+      </div>
+
+      <div class="input-group">
+        <span class="icon">🔒</span>
+        <input type="password" name="confirm_password" placeholder="Confirmar Contraseña"
+               required autocomplete="new-password" />
+      </div>
+
+      <div class="input-group">
+        <span class="icon">📞</span>
+        <input type="tel" name="telefono" placeholder="Número Telefónico"
+               autocomplete="tel"
+               value="{{ request.form.get('telefono', '') }}" />
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn-primary">Registrarse</button>
+      </div>
+
+      <p class="login-link">
+        ¿Ya tienes cuenta? <a href="{{ url_for('auth.login') }}">Inicia sesión</a>
+      </p>
+    </form>
+  </div>
+</main>
+{% endblock %}

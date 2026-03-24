@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{% block title %}Guardian Zero{% endblock %}</title>
+
+
+
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --teal-dark:   #1a6b73;
+      --teal-mid:    #1a9ea8;
+      --teal-light:  #4fc3cb;
+      --navy:        #1a3a4a;
+      --bg-main:     #dde8ec;
+      --bg-card:     #e8f0f3;
+      --white:       #ffffff;
+      --text-dark:   #1a3a4a;
+      --text-mid:    #4a6475;
+      --text-light:  #8a9eaa;
+      --error:       #e05252;
+      --success:     #2e9e6e;
+      --warning:     #e09c42;
+      --shadow-sm:   0 2px 8px rgba(26,107,115,.12);
+      --shadow-md:   0 6px 24px rgba(26,107,115,.18);
+      --radius:      14px;
+      --radius-sm:   8px;
+    }
+
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--bg-main);
+      color: var(--text-dark);
+      min-height: 100vh;
+    }
+
+    /* ── Navbar ── */
+    .navbar {
+      background: var(--bg-main);
+      border-bottom: 1px solid rgba(26,107,115,.15);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      height: 60px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar-brand {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: .5px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .navbar-brand img { height: 36px; }
+
+    /* ── Flash messages ── */
+    .flash-container {
+      position: fixed;
+      top: 70px;
+      right: 20px;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      max-width: 360px;
+    }
+    .flash {
+      padding: 14px 18px;
+      border-radius: var(--radius-sm);
+      font-size: .9rem;
+      font-weight: 500;
+      box-shadow: var(--shadow-md);
+      animation: slideIn .3s ease;
+      cursor: pointer;
+    }
+    .flash.error   { background: var(--error);   color: #fff; }
+    .flash.success { background: var(--success);  color: #fff; }
+    .flash.info    { background: var(--teal-mid); color: #fff; }
+    .flash.warning { background: var(--warning);  color: #fff; }
+
+    @keyframes slideIn {
+      from { transform: translateX(110%); opacity: 0; }
+      to   { transform: translateX(0);   opacity: 1; }
+    }
+
+    /* ── Shared card ── */
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      padding: 40px 36px;
+    }
+
+    /* ── Input group ── */
+    .input-group {
+      position: relative;
+      margin-bottom: 14px;
+    }
+    .input-group .icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--text-light);
+      font-size: 1rem;
+    }
+    .input-group input {
+      width: 100%;
+      padding: 15px 15px 15px 44px;
+      border: none;
+      border-radius: 10px;
+      background: var(--white);
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: .97rem;
+      color: var(--text-dark);
+      outline: none;
+      transition: box-shadow .2s;
+    }
+    .input-group input::placeholder { color: var(--text-light); }
+    .input-group input:focus {
+      box-shadow: 0 0 0 2px var(--teal-mid);
+    }
+
+    /* ── Button ── */
+    .btn-primary {
+      background: var(--teal-mid);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 14px 36px;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover {
+      background: var(--teal-dark);
+      transform: translateY(-1px);
+    }
+    .btn-primary:active { transform: translateY(0); }
+
+    /* ── Link ── */
+    a.link { color: var(--teal-dark); text-decoration: underline; }
+    a.link:hover { color: var(--teal-mid); }
+  </style>
+  {% block extra_head %}{% endblock %}
+</head>
+<body>
+
+<!-- Flash messages -->
+<div class="flash-container">
+  {% with messages = get_flashed_messages(with_categories=true) %}
+    {% for category, message in messages %}
+      <div class="flash {{ category }}" onclick="this.remove()">{{ message }}</div>
+    {% endfor %}
+  {% endwith %}
+</div>
+
+{% block body %}{% endblock %}
+
+<script>
+  // Auto-dismiss flash messages after 5 seconds
+  document.querySelectorAll('.flash').forEach(el => {
+    setTimeout(() => el.style.opacity = '0', 4500);
+    setTimeout(() => el.remove(), 5000);
+  });
+</script>
+{% block extra_js %}{% endblock %}
+</body>
+</html>
